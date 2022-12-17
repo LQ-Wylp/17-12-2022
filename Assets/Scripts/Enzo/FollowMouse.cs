@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class FollowMouse : MonoBehaviour
 {
+
+    
     
     // Start is called before the first frame update
     void Start()
@@ -18,4 +20,6 @@ public class FollowMouse : MonoBehaviour
         niquetarace.z = 0;
         transform.position = niquetarace;
     }
+
+   
 }

@@ -9,12 +9,15 @@ public class TowerManager : MonoBehaviour
     [SerializeField] LayerMask _towerLayer;
 
     private Vector2 _mousePosition;
-    private BaseTower _origin;
+    [SerializeField] BaseTower _origin;
+    private BaseTower _hoveredBase;
     
     private bool _taken;
-    private bool _hasClicked;
+    private bool _canBeTaken;
     private PlayerControls _playerControls;
     private InputAction _leftMouseClick;
+    private FollowMouse _cursor;
+    bool _canBePlaced;
 
     private void Start()
     {
@@ -22,19 +25,41 @@ public class TowerManager : MonoBehaviour
             _playerControls.Game.Enable();
             _leftMouseClick = _playerControls.Game.Click;
             _leftMouseClick.Enable();
+            _cursor = GameObject.FindObjectOfType<FollowMouse>();
+            transform.position = _origin.transform.position;
+
     }
 
 
     void Update()
     {
-        DetectPlacedObject();
-        Debug.Log(Mouse.current.position.ReadValue());
+        //TakeObject();
+       
         Debug.Log(Mouse.current.leftButton.IsPressed());
+        if(_canBeTaken && Mouse.current.leftButton.IsPressed())
+        {
+            TakeObject();
+        }
+        
+        if(_taken && !Mouse.current.leftButton.IsPressed())
+        {
+            if(_canBePlaced)
+            {
+                transform.position = _hoveredBase.transform.position;
+                _origin = _hoveredBase;
+            }
+            else{
+                transform.position = _origin.transform.position;
+            }
+        }
+
     }
-    void DetectPlacedObject() //D�tecte si un objet est plac� � l'endroit o� l'utilisateur pointe la souris
+    void TakeObject() //D�tecte si un objet est plac� � l'endroit o� l'utilisateur pointe la souris
     {
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        RaycastHit2D hit = Physics2D.Raycast(_mousePosition, transform.forward, Mathf.Infinity, _towerLayer);
+        
+        _taken = true;
+        transform.position = _cursor.transform.position;
+        
 
         
 
@@ -42,6 +67,30 @@ public class TowerManager : MonoBehaviour
         // {
         //     transform.position = Mouse.current.position.ReadValue();
         // }
+
+    }
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.name == "cursor")
+        {
+            _canBeTaken = true;
+        }
+        if(other.GetComponent<BaseTower>() != null)
+        {
+            _hoveredBase = other.GetComponent<BaseTower>();
+            _canBePlaced = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other) {
+        if(other.name == "cursor")
+        {
+            _canBeTaken = false;
+        }
+         if(other.GetComponent<BaseTower>() != null)
+        {
+            _hoveredBase = null;
+            _canBePlaced = false;
+        }
 
     }
 
