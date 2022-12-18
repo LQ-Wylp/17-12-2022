@@ -65,7 +65,12 @@ public class Tower : MonoBehaviour
 
                     _selectionManager.EchangerDeuxTours(t1, t2);
                 }
+                else if(!_hoveredBase._isEmpty && _hoveredBase == _origin)
+                {
+                    _selectionManager.MePlacerSurUnSocleVide(this);
+                }
             }
+           
             else
             {
                 transform.position = _origin.transform.position;
