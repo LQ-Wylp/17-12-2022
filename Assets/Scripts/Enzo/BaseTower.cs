@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class BaseTower : MonoBehaviour
 {
-    bool _isEmpty;
-    public void EmptySwitch()
-    {
-        _isEmpty = !_isEmpty;
-    }
+    public bool _isEmpty;
+    public Tower _tower;
 }
