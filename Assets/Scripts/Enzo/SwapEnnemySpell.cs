@@ -4,5 +4,7 @@ using UnityEngine;
 
 public class SwapEnnemySpell : Spell
 {
-   
+    [SerializeField] MonsterManager _monsterManager;
+
+    
 }

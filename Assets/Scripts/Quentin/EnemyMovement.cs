@@ -62,6 +62,10 @@ public class EnemyMovement : MonoBehaviour
 
             point_1 = path.listTransform[i];
             point_2 = path.listTransform[i + 1];
+            //ia inv
+            //nb pt a inv
+            //distance parcouru a inv
+            //percentLerp a inv
         }
 
         else if (percentLerp >= 1)
