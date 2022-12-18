@@ -44,6 +44,42 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""A"",
+                    ""type"": ""Button"",
+                    ""id"": ""55e6c05e-66f0-423c-a4dc-dfd59cde3ec7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Z"",
+                    ""type"": ""Button"",
+                    ""id"": ""bd9f6263-e675-468c-a9ea-1519c039e181"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""E"",
+                    ""type"": ""Button"",
+                    ""id"": ""70bad8a2-84c5-4d34-85f0-5ff8e52b5b6a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""R"",
+                    ""type"": ""Button"",
+                    ""id"": ""d2863437-90e6-46bb-80b8-b86885c5c81b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -68,6 +104,50 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec2914bc-b4ca-4c6c-bd69-2ff3fb11572b"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""A"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e7b735ff-3109-4a4b-8cae-da23033b8d1e"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Z"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9a98b6a3-e41f-4db8-99a7-2879a689fcb0"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""E"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b83df1e7-ab94-4ee1-a774-706638274e3f"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""R"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -84,6 +164,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
         m_Game_MouseMove = m_Game.FindAction("MouseMove", throwIfNotFound: true);
         m_Game_Click = m_Game.FindAction("Click", throwIfNotFound: true);
+        m_Game_A = m_Game.FindAction("A", throwIfNotFound: true);
+        m_Game_Z = m_Game.FindAction("Z", throwIfNotFound: true);
+        m_Game_E = m_Game.FindAction("E", throwIfNotFound: true);
+        m_Game_R = m_Game.FindAction("R", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -145,12 +229,20 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private IGameActions m_GameActionsCallbackInterface;
     private readonly InputAction m_Game_MouseMove;
     private readonly InputAction m_Game_Click;
+    private readonly InputAction m_Game_A;
+    private readonly InputAction m_Game_Z;
+    private readonly InputAction m_Game_E;
+    private readonly InputAction m_Game_R;
     public struct GameActions
     {
         private @PlayerControls m_Wrapper;
         public GameActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @MouseMove => m_Wrapper.m_Game_MouseMove;
         public InputAction @Click => m_Wrapper.m_Game_Click;
+        public InputAction @A => m_Wrapper.m_Game_A;
+        public InputAction @Z => m_Wrapper.m_Game_Z;
+        public InputAction @E => m_Wrapper.m_Game_E;
+        public InputAction @R => m_Wrapper.m_Game_R;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -166,6 +258,18 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Click.started -= m_Wrapper.m_GameActionsCallbackInterface.OnClick;
                 @Click.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnClick;
                 @Click.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnClick;
+                @A.started -= m_Wrapper.m_GameActionsCallbackInterface.OnA;
+                @A.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnA;
+                @A.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnA;
+                @Z.started -= m_Wrapper.m_GameActionsCallbackInterface.OnZ;
+                @Z.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnZ;
+                @Z.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnZ;
+                @E.started -= m_Wrapper.m_GameActionsCallbackInterface.OnE;
+                @E.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnE;
+                @E.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnE;
+                @R.started -= m_Wrapper.m_GameActionsCallbackInterface.OnR;
+                @R.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnR;
+                @R.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnR;
             }
             m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
@@ -176,6 +280,18 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Click.started += instance.OnClick;
                 @Click.performed += instance.OnClick;
                 @Click.canceled += instance.OnClick;
+                @A.started += instance.OnA;
+                @A.performed += instance.OnA;
+                @A.canceled += instance.OnA;
+                @Z.started += instance.OnZ;
+                @Z.performed += instance.OnZ;
+                @Z.canceled += instance.OnZ;
+                @E.started += instance.OnE;
+                @E.performed += instance.OnE;
+                @E.canceled += instance.OnE;
+                @R.started += instance.OnR;
+                @R.performed += instance.OnR;
+                @R.canceled += instance.OnR;
             }
         }
     }
@@ -193,5 +309,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     {
         void OnMouseMove(InputAction.CallbackContext context);
         void OnClick(InputAction.CallbackContext context);
+        void OnA(InputAction.CallbackContext context);
+        void OnZ(InputAction.CallbackContext context);
+        void OnE(InputAction.CallbackContext context);
+        void OnR(InputAction.CallbackContext context);
     }
 }

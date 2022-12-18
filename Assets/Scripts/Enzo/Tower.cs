@@ -38,7 +38,7 @@ public class Tower : MonoBehaviour
 
     void Update()
     {
-        if (_canBeTaken && Mouse.current.leftButton.IsPressed() && !_qqunPrisPasMoi)
+        if (_canBeTaken && Mouse.current.leftButton.IsPressed() && !_qqunPrisPasMoi && _selectionManager._possibleChanges > 0)
         {
             TakeObject();
         }
