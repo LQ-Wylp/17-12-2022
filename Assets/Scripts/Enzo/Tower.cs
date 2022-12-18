@@ -21,6 +21,7 @@ public class Tower : MonoBehaviour
     bool _canBePlaced;
     float _timer;
     public SelectionManager _selectionManager;
+    bool _canShoot;
 
     private void Start()
     {
@@ -82,7 +83,7 @@ public class Tower : MonoBehaviour
 
         // DefinirCible();
         _timer -= Time.deltaTime;
-        if (_timer <= 0 && !_taken)
+        if (_timer <= 0 && !_taken && _canShoot)
         {
             SpawnBullet();
             _timer = _cadence;
@@ -159,6 +160,16 @@ public class Tower : MonoBehaviour
         transform.position = _cursor.transform.position;
         _selectionManager.PrendreUnePersonne(this);
 
+    }
+    IEnumerator StopTurretCoroutine()
+    {
+        _canShoot = false;
+        yield return new WaitForSeconds(4);
+        _canShoot = true;
+    }
+    void StopTurret()
+    {
+        StartCoroutine(StopTurretCoroutine());
     }
     // void ShootTarget()
     // {
