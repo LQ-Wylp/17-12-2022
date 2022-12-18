@@ -5,11 +5,12 @@ using UnityEngine.InputSystem;
 public class Tower : MonoBehaviour
 {
     [SerializeField] float _cadence;
+    [SerializeField] float _slowedCadence;
     [SerializeField] float _range;
     [SerializeField] int _damage;
     [SerializeField] GameObject _bullet;
     private GameObject _target;
-
+    private float _originCadence;
     [SerializeField] GameObject _targetRenderer;
     private MonsterManager _monsterManager;
 
@@ -19,12 +20,15 @@ public class Tower : MonoBehaviour
     public bool _qqunPrisPasMoi;
     public bool _taken;
     public bool _canBeTaken;
-
+    public bool _isSlowed;
 
     private FollowMouse _cursor;
     float _timer;
     public SelectionManager _selectionManager;
-    bool _canShoot;
+    bool _canShoot = true;
+
+    [SerializeField] float _slowedTimer;
+    float _timerSlow;
 
     private void Start()
     {
@@ -34,11 +38,13 @@ public class Tower : MonoBehaviour
         _origin._tower = this;
         _monsterManager = GameObject.FindObjectOfType<MonsterManager>();
         _targetRenderer.transform.localScale = new Vector2(_range * 1.5f, _range * 1.5f);
+        _originCadence = _cadence;
+        _timerSlow = _slowedTimer;
     }
 
     void Update()
     {
-        if (_canBeTaken && Mouse.current.leftButton.IsPressed() && !_qqunPrisPasMoi)
+        if (_canBeTaken && Mouse.current.leftButton.IsPressed() && !_qqunPrisPasMoi && _selectionManager._possibleChanges > 0)
         {
             TakeObject();
         }
@@ -65,7 +71,12 @@ public class Tower : MonoBehaviour
 
                     _selectionManager.EchangerDeuxTours(t1, t2);
                 }
+                else if(!_hoveredBase._isEmpty && _hoveredBase == _origin)
+                {
+                    _selectionManager.MePlacerSurUnSocleVide(this);
+                }
             }
+           
             else
             {
                 transform.position = _origin.transform.position;
@@ -76,11 +87,28 @@ public class Tower : MonoBehaviour
 
         // DefinirCible();
         _timer -= Time.deltaTime;
+
         if (_timer <= 0 && !_taken && _canShoot)
         {
             SpawnBullet();
             _timer = _cadence;
         }
+
+
+        if(_isSlowed)
+        {
+            _timerSlow -= Time.deltaTime;
+            _cadence = _slowedCadence;
+        }
+
+        if(_timerSlow <= 0)
+        {
+            _cadence = _originCadence;
+            _isSlowed = false;
+            _timerSlow = _slowedTimer;   
+        }
+
+
 
         // if (_target != null)
         //     ShootTarget();
@@ -98,6 +126,7 @@ public class Tower : MonoBehaviour
             mon_nouveau_missile.SetActive(true);
         }
     }
+   
 
     bool etre_a_portee()
     {

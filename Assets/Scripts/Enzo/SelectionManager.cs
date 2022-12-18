@@ -8,6 +8,7 @@ public class SelectionManager : MonoBehaviour
     private PlayerControls _playerControls;
     private InputAction _leftMouseClick;
     public List<Tower> _Copains;
+    public int _possibleChanges; 
     // Start is called before the first frame update
     void Start()
     {
@@ -66,6 +67,8 @@ public class SelectionManager : MonoBehaviour
         t1._hoveredBase = null;
         t2._hoveredBase = null;
 
+        _possibleChanges --;
+
     }
 
     public void MePlacerSurUnSocleVide(Tower t1)
@@ -84,7 +87,9 @@ public class SelectionManager : MonoBehaviour
         BT2._tower = t1;
 
         t1._hoveredBase = null;
+        _possibleChanges --;
 
     }
+
 
 }

@@ -60,8 +60,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  rapidSpeed: 7.5
+  isSpeed: 0
   DistanceParcourue: 0
   Visuel: {fileID: 5790272068619714835}
+  _slowedTimer: 10
 --- !u!1 &5790272068619714835
 GameObject:
   m_ObjectHideFlags: 0

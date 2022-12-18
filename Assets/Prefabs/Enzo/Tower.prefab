@@ -96,14 +96,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cadence: 1
+  _slowedCadence: 2
   _range: 5
   _damage: 47
   _bullet: {fileID: 736838519507650374, guid: eef9b53abac37104e8042e761d9e156e, type: 3}
-  _towerLayer:
-    serializedVersion: 2
-    m_Bits: 8
   _targetRenderer: {fileID: 3298675360772572205}
   _origin: {fileID: 0}
+  _hoveredBase: {fileID: 0}
+  _qqunPrisPasMoi: 0
+  _taken: 0
+  _canBeTaken: 0
+  _isSlowed: 0
+  _selectionManager: {fileID: 0}
+  _slowedTimer: 10
 --- !u!1 &3298675360772572205
 GameObject:
   m_ObjectHideFlags: 0
