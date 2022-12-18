@@ -8,6 +8,9 @@ using UnityEngine.SceneManagement;
 public class EnemyMovement : MonoBehaviour
 {
     public float speed;
+    public float rapidSpeed;
+    float normalSpeed;
+    public bool isSpeed;
     private float percentLerp;
 
     private Transform point_1;
@@ -21,12 +24,16 @@ public class EnemyMovement : MonoBehaviour
     private int NbPointAtteins;
 
     public GameObject Visuel;
+    [SerializeField] float _slowedTimer;
+    float _timerSlow;
 
     // Start is called before the first frame update
     void Start()
     {
         DistanceParcourue = 0;
         path = FindObjectOfType<Path>();
+
+        normalSpeed = speed;
 
         point_1 = path.listTransform[0];
         point_2 = path.listTransform[1];
@@ -46,7 +53,7 @@ public class EnemyMovement : MonoBehaviour
         if (percentLerp > 1) { percentLerp = 1; }
         DistanceParcourue = percentLerp + NbPointAtteins;
 
-        if (percentLerp >= 1 && i <= path.listTransform.Count - 3) // -3 pour l'index, l'incrémation et le +1
+        if (percentLerp >= 1 && i <= path.listTransform.Count - 3) // -3 pour l'index, l'incrï¿½mation et le +1
         {
             percentLerp = 0;
 
@@ -61,5 +68,22 @@ public class EnemyMovement : MonoBehaviour
         {
             //Ennemy passe
         }
+
+         if(isSpeed)
+        {
+            _timerSlow -= Time.deltaTime;
+            speed = rapidSpeed;
+        }
+
+        if(_timerSlow <= 0)
+        {
+            speed = normalSpeed;
+            isSpeed = false;
+            _timerSlow = _slowedTimer;   
+        }
+
+
     }
+
+    
 }

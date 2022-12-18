@@ -1881,6 +1881,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _spellManager: {fileID: 0}
+  _monsterManager: {fileID: 0}
 --- !u!114 &2091819213
 MonoBehaviour:
   m_ObjectHideFlags: 0
