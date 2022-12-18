@@ -9,7 +9,7 @@ public class Tower : MonoBehaviour
     [SerializeField] int _damage;
     [SerializeField] GameObject _bullet;
     private GameObject _target;
-    
+
     [SerializeField] GameObject _targetRenderer;
     private MonsterManager _monsterManager;
     [SerializeField] BaseTower _origin;
@@ -29,10 +29,11 @@ public class Tower : MonoBehaviour
         _origin._isEmpty = false;
         _origin._tower = this;
         _monsterManager = GameObject.FindObjectOfType<MonsterManager>();
-        _targetRenderer.transform.localScale = new Vector2(_range*1.5f, _range*1.5f);
+        _targetRenderer.transform.localScale = new Vector2(_range * 1.5f, _range * 1.5f);
     }
 
-    private void OnDrawGizmos() {
+    private void OnDrawGizmos()
+    {
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(transform.position, transform.position + Vector3.up);
     }
@@ -49,43 +50,44 @@ public class Tower : MonoBehaviour
         {
             if (_canBePlaced && _hoveredBase._isEmpty)
             {
-                transform.position = _hoveredBase.transform.position;
+                _origin = _hoveredBase;
+                transform.position = _origin.transform.position;
                 _hoveredBase._isEmpty = false;
                 _hoveredBase._tower = this;
-                _origin = _hoveredBase;
+                
                 _selectionManager.AuSuivant();
-                 
-            }
-            else if(_canBePlaced && !_hoveredBase._isEmpty)
-            {
-                ChangeOrigin();
-                //_hoveredBase._tower._origin = _origin;
-                // _hoveredBase._tower.transform.position = _hoveredBase._tower._origin.transform.position;
-                // _origin._isEmpty = false;
-                // transform.position = _hoveredBase.transform.position;
-                // _hoveredBase._isEmpty = false;
-                // _hoveredBase._tower = this;
-                // _origin = _hoveredBase;
-                _selectionManager.AuSuivant();
-                 
 
             }
-            else if(!_canBePlaced)
+            // else if (_canBePlaced && !_hoveredBase._isEmpty)
+            // {
+            //     ChangeOrigin();
+            //     //_hoveredBase._tower._origin = _origin;
+            //     // _hoveredBase._tower.transform.position = _hoveredBase._tower._origin.transform.position;
+            //     // _origin._isEmpty = false;
+            //     // transform.position = _hoveredBase.transform.position;
+            //     // _hoveredBase._isEmpty = false;
+            //     // _hoveredBase._tower = this;
+            //     // _origin = _hoveredBase;
+            //     _selectionManager.AuSuivant();
+
+
+            // }
+            else if (!_canBePlaced)
             {
                 transform.position = _origin.transform.position;
             }
             _taken = false;
-            
+
         }
 
         // DefinirCible();
         _timer -= Time.deltaTime;
-        if(_timer <= 0 && !_taken)
+        if (_timer <= 0 && !_taken)
         {
             SpawnBullet();
             _timer = _cadence;
         }
-        
+
         // if (_target != null)
         //     ShootTarget();
 
@@ -95,25 +97,35 @@ public class Tower : MonoBehaviour
     void SpawnBullet()
     {
         DefinirCible();
-        if(_target != null)
+        if (_target != null)
         {
             GameObject mon_nouveau_missile = Instantiate(_bullet, transform.position, Quaternion.identity); //Quaternion.identity = angle 
             mon_nouveau_missile.GetComponent<Bullet>().setCibleBullet(_target);
             mon_nouveau_missile.SetActive(true);
         }
     }
-    void ChangeOrigin()
-    {
-        BaseTower socle1 = _origin;
-                BaseTower socle2 = _hoveredBase._tower._origin;
-                Vector2 pos1 = _origin.transform.position;
-                Vector2 pos2 = _hoveredBase._tower._origin.transform.position;
-                
-                transform.position = pos2;
-                _hoveredBase._tower.transform.position = pos1;
-                _origin = socle2;
-                _hoveredBase._tower._origin = socle1;
-    }
+    // void ChangeOrigin()
+    // {
+
+    //     BaseTower socle1 = _origin;
+    //     BaseTower socle2 = _hoveredBase._tower._origin;
+    //     Vector2 pos1 = _origin.transform.position;
+    //     Vector2 pos2 = _hoveredBase._tower._origin.transform.position;
+
+    //     if(_hoveredBase != _origin)
+    //     {
+    //     transform.position = _hoveredBase.transform.position;
+    //     _hoveredBase._tower.transform.position = _origin.transform.position;
+    //     _origin = socle2;
+    //     _hoveredBase._tower._origin = socle1;
+    //     }
+    //     else
+    //     {
+    //         transform.position = _origin.transform.position;
+    //     }
+    //     Debug.Log("ahahahaha");
+        
+    // }
     bool etre_a_portee()
     {
         if (Vector3.Distance(transform.position, _target.transform.position) <= _range)
@@ -164,7 +176,12 @@ public class Tower : MonoBehaviour
         {
             _canBeTaken = true;
         }
-        if (other.GetComponent<BaseTower>() != null)
+        if (other.GetComponent<BaseTower>() != null && !other.GetComponent<BaseTower>()._isEmpty)
+        {
+            _hoveredBase = other.GetComponent<BaseTower>();
+            _canBePlaced = false;
+        }
+        else if(other.GetComponent<BaseTower>() != null && other.GetComponent<BaseTower>()._isEmpty)
         {
             _hoveredBase = other.GetComponent<BaseTower>();
             _canBePlaced = true;
