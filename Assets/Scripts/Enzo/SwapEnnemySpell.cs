@@ -5,20 +5,34 @@ using UnityEngine;
 public class SwapEnnemySpell : Spell
 {
     [SerializeField] MonsterManager _monsterManager;
-
-     private void Start()
+    public List<GameObject> MonstreAliveInverse;
+    private void Start()
     {
-       
         _monsterManager = GameObject.FindObjectOfType<MonsterManager>();
+        MonstreAliveInverse = new List<GameObject>();
     }
 
     public override void CastEffect()
     {
-
-        for (int i = 0; i < _monsterManager.MonstersAlive.Count; i++)
+        MonstreAliveInverse.Clear();
+        for (int i = _monsterManager.MonstersAlive.Count - 1; i >= 0; i--)
         {
-            _monsterManager.MonstersAlive[i].GetComponent<EnemyMovement>().isSpeed = true;
+            MonstreAliveInverse.Add(_monsterManager.MonstersAlive[i]);
         }
 
+        for(int j = 0; j < _monsterManager.MonstersAlive.Count; j++)
+        {
+            EnemyMovement EM1 = _monsterManager.MonstersAlive[j].gameObject.GetComponent<EnemyMovement>();
+            EnemyMovement EM2 = MonstreAliveInverse[j].gameObject.GetComponent<EnemyMovement>();
+
+            EM1.i = EM2.i;
+            EM1.NbPointAtteins = EM2.NbPointAtteins;
+            EM1.percentLerp = EM2.percentLerp;
+            EM1.DistanceParcourue = EM2.DistanceParcourue;
+            EM1.RefreshPoint();
+
+
+        }
     }
+
 }

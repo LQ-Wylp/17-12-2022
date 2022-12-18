@@ -11,17 +11,17 @@ public class EnemyMovement : MonoBehaviour
     public float rapidSpeed;
     float normalSpeed;
     public bool isSpeed;
-    private float percentLerp;
+    public float percentLerp;
 
     private Transform point_1;
     private Transform point_2;
 
     private Path path;
 
-    private int i;
+    public int i;
 
     public float DistanceParcourue;
-    private int NbPointAtteins;
+    public int NbPointAtteins;
 
     public GameObject Visuel;
     [SerializeField] float _slowedTimer;
@@ -40,6 +40,12 @@ public class EnemyMovement : MonoBehaviour
         transform.position = Vector3.Lerp(point_1.position, point_2.position, percentLerp);
 
         Visuel.SetActive(true);
+    }
+
+    public void RefreshPoint()
+    {
+        point_1 = path.listTransform[i];
+        point_2 = path.listTransform[i + 1];
     }
 
     // Update is called once per frame
