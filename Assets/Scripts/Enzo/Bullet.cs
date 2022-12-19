@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
     private GameObject cible_bullet;
     private float pourcentage;
     private Vector3 positionInitiale;
+    //[SerializeField] bool _isPiercing;
     void Start()
     {
         positionInitiale = transform.position;

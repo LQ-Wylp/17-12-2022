@@ -122,6 +122,7 @@ public class Tower : MonoBehaviour
         if (_target != null)
         {
             GameObject mon_nouveau_missile = Instantiate(_bullet, transform.position, Quaternion.identity); //Quaternion.identity = angle 
+            
             mon_nouveau_missile.GetComponent<Bullet>().setCibleBullet(_target);
             mon_nouveau_missile.SetActive(true);
         }
