@@ -6,7 +6,7 @@ public class PiercingBullet : MonoBehaviour
 {
      public int degats;
     public float vitesse;
-    private GameObject cible_bullet;
+    public GameObject cible_bullet;
     private Rigidbody2D _rb;
     private Vector3 positionInitiale;
     private Vector2 _direction;
@@ -15,10 +15,10 @@ public class PiercingBullet : MonoBehaviour
     {
         positionInitiale = transform.position;
         _rb = GetComponent<Rigidbody2D>();
-        _direction = (cible_bullet.transform.position - transform.position) * vitesse;
+        //_direction = (cible_bullet.transform.position - transform.position) * vitesse;
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         if (cible_bullet == null)
@@ -29,7 +29,7 @@ public class PiercingBullet : MonoBehaviour
         {
             // pourcentage += Time.deltaTime * vitesse / Vector3.Distance(transform.position, cible_bullet.transform.position);
             // transform.position = Vector3.Lerp(transform.position, cible_bullet.transform.position, pourcentage);
-            
+            _direction = (cible_bullet.transform.position - transform.position).normalized * vitesse;
             _rb.velocity =  _direction;          
         }
     }
@@ -44,6 +44,10 @@ public class PiercingBullet : MonoBehaviour
         if(other.tag == "Ennemy")
         {
             other.GetComponent<HealthSystem>().PrendreDPS(degats);
+        }
+        if(other.name == "Target")
+        {
+            Destroy(gameObject);
         }
     }
 

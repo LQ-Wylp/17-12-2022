@@ -4,15 +4,22 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class Tower : MonoBehaviour
 {
-    [SerializeField] float _cadence;
+    public float _cadence;
     [SerializeField] float _slowedCadence;
     [SerializeField] float _range;
-    [SerializeField] int _damage;
+    public int _damage;
     [SerializeField] GameObject _bullet;
     private GameObject _target;
     private float _originCadence;
     [SerializeField] GameObject _targetRenderer;
     private MonsterManager _monsterManager;
+
+    public enum TowerType
+    {
+        Normal, Piercing, Area
+    }
+
+    public TowerType _towerType;
 
 
     public BaseTower _origin;
@@ -21,6 +28,7 @@ public class Tower : MonoBehaviour
     public bool _taken;
     public bool _canBeTaken;
     public bool _isSlowed;
+    public GameObject _targetLaser;
 
     private FollowMouse _cursor;
     float _timer;
@@ -29,6 +37,9 @@ public class Tower : MonoBehaviour
 
     [SerializeField] float _slowedTimer;
     float _timerSlow;
+
+    public AreaDamage _areaDamage = null;
+    
 
     private void Start()
     {
@@ -119,12 +130,33 @@ public class Tower : MonoBehaviour
     void SpawnBullet()
     {
         DefinirCible();
-        if (_target != null)
+        if (_target != null && _towerType != TowerType.Area)
         {
             GameObject mon_nouveau_missile = Instantiate(_bullet, transform.position, Quaternion.identity); //Quaternion.identity = angle 
             
-            mon_nouveau_missile.GetComponent<Bullet>().setCibleBullet(_target);
+            if(_towerType == TowerType.Normal)
+            {
+                mon_nouveau_missile.GetComponent<Bullet>().setCibleBullet(_target);
+            }
+            if(_towerType == TowerType.Piercing)
+            {
+                mon_nouveau_missile.GetComponent<PiercingBullet>().setCibleBullet(_targetLaser);
+            }
+
+
             mon_nouveau_missile.SetActive(true);
+        }
+        if(_target != null && _towerType == TowerType.Area && _areaDamage._monstersAtRange.Count > 0)
+        {
+            
+            foreach(HealthSystem monster in _areaDamage._monstersAtRange)
+            {
+                Debug.Log("_areaDamage._monstersAtRange[i].gameObject");
+                GameObject mon_nouveau_missile = Instantiate(_bullet, transform.position, Quaternion.identity);
+                mon_nouveau_missile.GetComponent<Bullet>().setCibleBullet(monster.gameObject);
+            }
+            return;
+            
         }
     }
    
@@ -152,6 +184,14 @@ public class Tower : MonoBehaviour
                 _target = null;
             }
         }
+    }
+    // public void DefinirCible()
+    // {
+
+    // }
+    public GameObject DefinePiercingTarget()
+    {
+        return _targetLaser;
     }
 
     void TakeObject() //D�tecte si un objet est plac� � l'endroit o� l'utilisateur pointe la souris

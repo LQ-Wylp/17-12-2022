@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
 {
-    [Header("Système de vies")]
+    [Header("Systï¿½me de vies")]
     public int VieInitiale;
     private int VieRestante;
 
@@ -24,6 +24,7 @@ public class HealthSystem : MonoBehaviour
     public void PrendreDPS(int DommageSubit)
     {
         VieRestante -= DommageSubit;
+       
     }
 
     public void DestroyThis()
