@@ -1818,6 +1818,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1819294716041453790, guid: 2dac4310aa411624497d8676502d50c4, type: 3}
+      propertyPath: _bullet
+      value: 
+      objectReference: {fileID: 736838519507650374, guid: 9f096491e3f102145956033452d15101, type: 3}
+    - target: {fileID: 1819294716041453790, guid: 2dac4310aa411624497d8676502d50c4, type: 3}
       propertyPath: _origin
       value: 
       objectReference: {fileID: 262949826}
